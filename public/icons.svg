@@ -40,6 +40,11 @@
     <path d="m15.6 9.4 5 5.2M20.6 9.4l-5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
   </symbol>
 
+  <symbol id="microfono" viewBox="0 0 24 24">
+    <rect x="9.2" y="3" width="5.6" height="10" rx="2.8" fill="none" stroke="currentColor" stroke-width="1.7" />
+    <path d="M6 11.4a6 6 0 0 0 12 0M12 17.4V21M9.4 21h5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+  </symbol>
+
   <symbol id="reiniciar" viewBox="0 0 24 24">
     <path d="M19.6 12a7.6 7.6 0 1 1-2.3-5.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
     <path d="M19.8 3.8v5h-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
