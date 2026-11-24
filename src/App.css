@@ -1,0 +1,51 @@
+.app {
+  width: min(1180px, 100% - 2.5rem);
+  margin-inline: auto;
+  padding-block: 2.5rem 4rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.cabecera {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.cabecera__titulo {
+  width: min(560px, 88vw);
+  filter: drop-shadow(0 0 26px rgba(255, 198, 55, 0.28))
+    drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6));
+}
+
+.cabecera__lema {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+
+.base-lista {
+  display: grid;
+  gap: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+  justify-items: center;
+}
+
+.base-lista h1 {
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+}
+
+.base-lista p {
+  max-width: 46ch;
+}
+
+@media (max-width: 560px) {
+  .app {
+    width: min(1180px, 100% - 1.5rem);
+    padding-block: 1.5rem 3rem;
+  }
+}
