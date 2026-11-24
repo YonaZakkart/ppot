@@ -10,9 +10,7 @@
   Series, rachas, un rival que aprende tus patrones y un Flork que no perdona.
 </p>
 
-<p align="center">
-  <img src="docs/preview-movil.webp" alt="Vista móvil del duelo" width="230" />
-</p>
+<img src="docs/preview-movil.webp" alt="Vista móvil del duelo" width="165" align="right" />
 
 ## Qué es
 
@@ -21,6 +19,27 @@ Mantiene la estructura del proyecto de referencia (`App.jsx`, `components/`, `as
 `App.css`, `index.css`) y la mejora con lógica testeada, tres niveles de IA, estadísticas
 persistentes, sonido sintetizado y una interfaz neón totalmente responsive.
 
+## Jugar
+
+<p align="center">
+  <a href="https://yzakkart-ppot.vercel.app/">
+    <img src="docs/boton-jugar.svg" alt="Play Game" width="260" />
+  </a>
+</p>
+
+**O en local:**
+
+```bash
+git clone https://github.com/YonaZakkart/ppot.git
+cd ppot
+npm install
+npm run dev
+```
+
+Abre <http://localhost:5173>.
+
+<br clear="right" />
+
 ## Características
 
 - **Series BO3 / BO5 / BO7** con campeón, revancha y cambio de jugador sin recargar.
@@ -28,22 +47,10 @@ persistentes, sonido sintetizado y una interfaz neón totalmente responsive.
   - `Novato`: juega al azar.
   - `Retador`: contragolpea tu jugada más usada y tu última jugada.
   - `Pesadilla`: predice tu siguiente jugada a partir de tus secuencias.
-- **Canto de duelo** ("Piedra… Papel… ¡Tijera!") antes de revelar cada ronda.
-- **Flork reactivo**: celebra cuando gana, se enfurece cuando pierde.
 - **Marcador, historial de rondas y rachas** en vivo.
 - **Estadísticas persistentes** en `localStorage`: partidas, victorias, porcentaje, rachas y uso de movimientos.
-- **Audio propio con WebAudio** (clic, victoria, derrota, empate, fanfarria) y **voz opcional** en español.
+- **Audio propio con WebAudio** (clic, victoria, derrota, empate, fanfarria).
 - **Atajos de teclado**: `1` piedra, `2` papel, `3` tijera.
-- **Accesibilidad**: `aria-live` para el canto, `aria-pressed` en selectores, foco visible y respeto a `prefers-reduced-motion`.
-
-## Jugar
-
-```bash
-npm install
-npm run dev
-```
-
-Abre <http://localhost:5173>.
 
 ### Reglas
 
@@ -59,7 +66,6 @@ Abre <http://localhost:5173>.
 | Jugar papel | `2` o `L` | Botón **Papel** |
 | Jugar tijera | `3` o `T` | Botón **Tijera** |
 | Cerrar el modal de campeón | `Escape` | **Ver el tablero** |
-| Silenciar / activar audio | — | HUD **SFX** / **Voz** |
 
 ## Stack
 
@@ -129,8 +135,7 @@ dificultades, el cálculo de estadísticas y la degradación segura del almacena
 
 ## Assets
 
-Los assets originales (título 3D y los tres Flork) estaban en `private/`, una carpeta que
-**no se versiona** y está excluida en `.gitignore`. Se rescataron desde ahí y se optimizaron
-a WebP (de ~4.5 MB a ~260 KB) dentro de `src/assets/`.
+Los assets originales (título 3D y los tres Flork) fueron proporcionados en las sesiones
+de clases y se optimizaron a WebP (de ~4.5 MB a ~260 KB) dentro de `src/assets/`.
 
 Los assets se incluyen únicamente con fines de demostración del proyecto.
