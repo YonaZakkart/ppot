@@ -1,0 +1,299 @@
+/* ==========================================================================
+   PPoT · Duelo Neón — sistema de diseño
+   Paleta: negro profundo + dorado arcade + azul eléctrico
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* Superficies */
+  --fondo: #04060c;
+  --fondo-medio: #070b14;
+  --fondo-alto: #0b1020;
+  --panel: rgba(10, 15, 28, 0.86);
+  --panel-alto: rgba(17, 24, 43, 0.92);
+
+  /* Dorado */
+  --dorado: #ffc637;
+  --dorado-claro: #ffe28a;
+  --dorado-oscuro: #c98a06;
+  --dorado-tenue: rgba(255, 198, 55, 0.28);
+
+  /* Azul */
+  --azul: #2f7dff;
+  --azul-claro: #5ee0ff;
+  --azul-oscuro: #0b3f9e;
+  --azul-tenue: rgba(47, 125, 255, 0.3);
+
+  /* Texto */
+  --texto: #e9effc;
+  --texto-tenue: #93a3c4;
+  --texto-apagado: #64718f;
+
+  /* Semánticos */
+  --exito: #3dffa2;
+  --peligro: #ff4d6d;
+  --empate: #b98cff;
+
+  /* Tipografía */
+  --fuente-titulo: 'Orbitron', 'Trebuchet MS', system-ui, sans-serif;
+  --fuente-cuerpo: 'Rajdhani', 'Trebuchet MS', system-ui, sans-serif;
+
+  /* Forma y profundidad */
+  --radio: 18px;
+  --radio-chico: 12px;
+  --borde-dorado: 1px solid rgba(255, 198, 55, 0.34);
+  --borde-azul: 1px solid rgba(47, 125, 255, 0.38);
+  --sombra-panel: 0 24px 60px -34px #000, inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --brillo-dorado: 0 0 22px -4px var(--dorado-tenue), inset 0 0 26px -22px var(--dorado);
+  --brillo-azul: 0 0 22px -4px var(--azul-tenue), inset 0 0 26px -22px var(--azul);
+  --transicion: 180ms cubic-bezier(0.2, 0.7, 0.3, 1);
+
+  font-family: var(--fuente-cuerpo);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--fondo);
+  color: var(--texto);
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Fondo: rejilla en perspectiva + auroras dorada y azul */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+}
+
+body::before {
+  background-image:
+    radial-gradient(ellipse 70% 55% at 12% -10%, rgba(47, 125, 255, 0.2), transparent 62%),
+    radial-gradient(ellipse 60% 50% at 92% 6%, rgba(255, 198, 55, 0.14), transparent 64%),
+    radial-gradient(ellipse 90% 60% at 50% 112%, rgba(47, 125, 255, 0.12), transparent 70%);
+}
+
+body::after {
+  z-index: -1;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(47, 125, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 125, 255, 0.07) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 20%, transparent 78%);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+p {
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--azul-claro);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: rgba(255, 198, 55, 0.32);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--dorado-oscuro), var(--azul-oscuro));
+  border-radius: 999px;
+  border: 2px solid var(--fondo);
+}
+
+/* ==========================================================================
+   Utilidades
+   ========================================================================== */
+
+.sr-solo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.texto-dorado {
+  color: var(--dorado);
+}
+
+.texto-azul {
+  color: var(--azul-claro);
+}
+
+.texto-tenue {
+  color: var(--texto-tenue);
+}
+
+.etiqueta {
+  font-family: var(--fuente-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--texto-apagado);
+}
+
+/* ==========================================================================
+   Paneles con borde neón
+   ========================================================================== */
+
+.panel {
+  position: relative;
+  background:
+    linear-gradient(155deg, rgba(19, 27, 48, 0.92), rgba(6, 9, 18, 0.95) 62%);
+  border: var(--borde-dorado);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-panel), var(--brillo-dorado);
+}
+
+.panel--azul {
+  border: var(--borde-azul);
+  box-shadow: var(--sombra-panel), var(--brillo-azul);
+}
+
+/* ==========================================================================
+   Botones
+   ========================================================================== */
+
+.boton {
+  --tono: var(--dorado);
+  --tono-brillo: rgba(255, 198, 55, 0.4);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--tono) 55%, transparent);
+  border-radius: var(--radio-chico);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tono) 20%, transparent), transparent 70%),
+    rgba(8, 12, 22, 0.9);
+  color: var(--texto);
+  font-family: var(--fuente-titulo);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow: 0 0 18px -8px var(--tono-brillo), inset 0 0 18px -14px var(--tono);
+  transition:
+    transform var(--transicion),
+    box-shadow var(--transicion),
+    border-color var(--transicion),
+    color var(--transicion);
+}
+
+.boton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--tono);
+  color: #fff;
+  box-shadow: 0 0 26px -6px var(--tono-brillo), inset 0 0 22px -14px var(--tono);
+}
+
+.boton:active:not(:disabled) {
+  transform: translateY(0) scale(0.985);
+}
+
+.boton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.boton--dorado {
+  --tono: var(--dorado);
+  --tono-brillo: rgba(255, 198, 55, 0.45);
+  color: var(--dorado-claro);
+}
+
+.boton--azul {
+  --tono: var(--azul);
+  --tono-brillo: rgba(47, 125, 255, 0.5);
+  color: var(--azul-claro);
+}
+
+.boton--fantasma {
+  --tono: #7f8bab;
+  --tono-brillo: rgba(127, 139, 171, 0.3);
+  background: rgba(10, 14, 24, 0.55);
+  color: var(--texto-tenue);
+}
+
+.boton--bloque {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
