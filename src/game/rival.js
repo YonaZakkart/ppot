@@ -4,18 +4,21 @@ export const DIFICULTADES = [
   {
     id: 'novato',
     nombre: 'Novato',
+    nivel: 1,
     resumen: 'Pura suerte',
     descripcion: 'Flork juega al azar. Ideal para calentar.',
   },
   {
     id: 'retador',
     nombre: 'Retador',
+    nivel: 2,
     resumen: 'Lee tus patrones',
     descripcion: 'Contragolpea tus jugadas más repetidas.',
   },
   {
     id: 'pesadilla',
     nombre: 'Pesadilla',
+    nivel: 3,
     resumen: 'Anticipa tu jugada',
     descripcion: 'Aprende tus secuencias y las castiga.',
   },
