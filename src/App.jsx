@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import titulo from './assets/titulo.webp'
+import Icono from './components/Icono.jsx'
 import FormularioJugador from './components/FormularioJugador.jsx'
 import ArenaDuelo from './components/ArenaDuelo.jsx'
 import TablaMarcador from './components/TablaMarcador.jsx'
@@ -17,7 +18,13 @@ import {
 import { ATAJOS } from './game/movimientos.js'
 import { elegirMovimientoRival } from './game/rival.js'
 import { actualizarEstadisticas } from './game/estadisticas.js'
-import { cargarEstadisticas, guardarEstadisticas } from './game/almacenamiento.js'
+import {
+  cargarAjustes,
+  cargarEstadisticas,
+  guardarAjustes,
+  guardarEstadisticas,
+} from './game/almacenamiento.js'
+import { cantar, detenerVoz, reproducir } from './sonido.js'
 
 const FASE = {
   INICIO: 'inicio',
@@ -33,21 +40,30 @@ const CANTO = ['Piedra…', 'Papel…', '¡Tijera!']
 
 export default function App() {
   const [estadisticas, setEstadisticas] = useState(cargarEstadisticas)
+  const [ajustes, setAjustes] = useState(cargarAjustes)
   const [partida, setPartida] = useState(null)
   const [fase, setFase] = useState(FASE.INICIO)
   const [rondaActual, setRondaActual] = useState(null)
   const [canto, setCanto] = useState('')
   const [modalAbierto, setModalAbierto] = useState(false)
+  const ajustesRef = useRef(ajustes)
 
   useEffect(() => {
     guardarEstadisticas(estadisticas)
   }, [estadisticas])
+
+  useEffect(() => {
+    ajustesRef.current = ajustes
+    guardarAjustes(ajustes)
+  }, [ajustes])
 
   // Secuencia del canto antes de revelar las jugadas
   useEffect(() => {
     if (fase !== FASE.REVELANDO) return
 
     setCanto(CANTO[0])
+    cantar('Piedra, papel, tijera', { activa: ajustesRef.current.voz })
+
     const temporizadores = [
       setTimeout(() => setCanto(CANTO[1]), 380),
       setTimeout(() => setCanto(CANTO[2]), 760),
@@ -70,6 +86,24 @@ export default function App() {
 
       if (siguiente.estado === ESTADOS.FINALIZADA) {
         setEstadisticas((previas) => actualizarEstadisticas(previas, siguiente))
+        reproducir(siguiente.campeon === 'jugador' ? 'fanfarria' : 'derrotaSerie', {
+          silenciado: !ajustesRef.current.sonido,
+        })
+        cantar(
+          siguiente.campeon === 'jugador'
+            ? `¡${siguiente.nombre}, campeón!`
+            : 'Flork se lleva la corona',
+          { activa: ajustesRef.current.voz },
+        )
+      } else {
+        reproducir(
+          resultado === RESULTADOS.VICTORIA
+            ? 'victoria'
+            : resultado === RESULTADOS.DERROTA
+              ? 'derrota'
+              : 'empate',
+          { silenciado: !ajustesRef.current.sonido },
+        )
       }
     }, MS_REVELADO)
 
@@ -119,11 +153,13 @@ export default function App() {
         resultado: null,
       })
       setFase(FASE.REVELANDO)
+      reproducir('clic', { silenciado: !ajustesRef.current.sonido })
     },
     [partida, fase],
   )
 
   const revancha = useCallback(() => {
+    detenerVoz()
     setPartida((actual) => (actual ? reiniciarPartida(actual) : actual))
     setFase(FASE.ELIGIENDO)
     setRondaActual(null)
@@ -131,6 +167,7 @@ export default function App() {
   }, [])
 
   const volverAlInicio = useCallback(() => {
+    detenerVoz()
     setPartida(null)
     setFase(FASE.INICIO)
     setRondaActual(null)
@@ -139,6 +176,15 @@ export default function App() {
   }, [])
 
   const cerrarModal = useCallback(() => setModalAbierto(false), [])
+
+  const alternarSonido = useCallback(() => {
+    setAjustes((actuales) => ({ ...actuales, sonido: !actuales.sonido }))
+  }, [])
+
+  const alternarVoz = useCallback(() => {
+    if (ajustesRef.current.voz) detenerVoz()
+    setAjustes((actuales) => ({ ...actuales, voz: !actuales.voz }))
+  }, [])
 
   // Atajos de teclado para jugar
   useEffect(() => {
@@ -193,6 +239,36 @@ export default function App() {
   return (
     <main className="app">
       <header className="cabecera">
+        <div className="hud">
+          <span className="hud__marca">
+            PPoT <em>arcade</em>
+          </span>
+
+          <div className="ajustes" role="group" aria-label="Ajustes de audio">
+            <button
+              type="button"
+              className={`ajustes__boton ${ajustes.sonido ? 'activo' : ''}`}
+              aria-pressed={ajustes.sonido}
+              onClick={alternarSonido}
+              title={ajustes.sonido ? 'Silenciar efectos' : 'Activar efectos'}
+            >
+              <Icono nombre={ajustes.sonido ? 'sonido' : 'silencio'} tamano={16} />
+              <span>SFX</span>
+            </button>
+
+            <button
+              type="button"
+              className={`ajustes__boton ${ajustes.voz ? 'activo' : ''}`}
+              aria-pressed={ajustes.voz}
+              onClick={alternarVoz}
+              title={ajustes.voz ? 'Silenciar la voz' : 'Activar la voz del canto'}
+            >
+              <Icono nombre="microfono" tamano={16} />
+              <span>Voz</span>
+            </button>
+          </div>
+        </div>
+
         <img className="cabecera__titulo" src={titulo} alt="Piedra, Papel o Tijera" />
         <p className="cabecera__lema">
           <span className="texto-dorado">Duelo</span> neón contra Flork
@@ -220,6 +296,16 @@ export default function App() {
           </aside>
         </div>
       )}
+
+      <footer className="pie">
+        <span>PPoT · Duelo Neón</span>
+        {estadisticas.partidas > 0 && (
+          <span className="pie__dato">
+            Récord: <strong>{estadisticas.victorias}V</strong> ·{' '}
+            <strong>{estadisticas.derrotas}D</strong>
+          </span>
+        )}
+      </footer>
 
       <ModalCampeon
         partida={partida}

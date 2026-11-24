@@ -81,6 +81,7 @@ export default function ArenaDuelo({
           ) : (
             <span className="arena__interrogante">?</span>
           )}
+          {resultado === 'victoria' && <span className="arena__slot-badge">+1</span>}
           <span className="arena__slot-pie">{partida.nombre}</span>
         </div>
 
@@ -98,6 +99,7 @@ export default function ArenaDuelo({
           ) : (
             <span className="arena__interrogante">?</span>
           )}
+          {resultado === 'derrota' && <span className="arena__slot-badge">+1</span>}
           <span className="arena__slot-pie">Flork</span>
         </div>
       </div>

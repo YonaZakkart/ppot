@@ -92,6 +92,8 @@ body::before {
     radial-gradient(ellipse 70% 55% at 12% -10%, rgba(47, 125, 255, 0.2), transparent 62%),
     radial-gradient(ellipse 60% 50% at 92% 6%, rgba(255, 198, 55, 0.14), transparent 64%),
     radial-gradient(ellipse 90% 60% at 50% 112%, rgba(47, 125, 255, 0.12), transparent 70%);
+  background-size: 140% 140%;
+  animation: auroraNeon 26s ease-in-out infinite alternate;
 }
 
 body::after {
@@ -206,14 +208,53 @@ img {
   position: relative;
   background:
     linear-gradient(155deg, rgba(19, 27, 48, 0.92), rgba(6, 9, 18, 0.95) 62%);
-  border: var(--borde-dorado);
+  border: 1px solid rgba(255, 198, 55, 0.42);
   border-radius: var(--radio);
   box-shadow: var(--sombra-panel), var(--brillo-dorado);
 }
 
 .panel--azul {
-  border: var(--borde-azul);
+  border: 1px solid rgba(47, 125, 255, 0.48);
   box-shadow: var(--sombra-panel), var(--brillo-azul);
+}
+
+/* Esquinas tipo HUD */
+.panel::before,
+.panel::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  opacity: 0.75;
+  border-color: var(--dorado);
+  transition: opacity var(--transicion);
+}
+
+.panel::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--dorado);
+  border-left: 2px solid var(--dorado);
+  border-top-left-radius: var(--radio);
+}
+
+.panel::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 2px solid var(--dorado);
+  border-bottom: 2px solid var(--dorado);
+  border-bottom-right-radius: var(--radio);
+}
+
+.panel--azul::before,
+.panel--azul::after {
+  border-color: var(--azul-claro);
+}
+
+.panel:hover::before,
+.panel:hover::after {
+  opacity: 1;
 }
 
 /* ==========================================================================
@@ -224,6 +265,7 @@ img {
   --tono: var(--dorado);
   --tono-brillo: rgba(255, 198, 55, 0.4);
   position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -285,6 +327,66 @@ img {
 
 .boton--bloque {
   width: 100%;
+}
+
+/* Destello al pasar el cursor */
+.boton::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -70%;
+  width: 45%;
+  height: 220%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.24), transparent);
+  transform: translateX(-120%) rotate(18deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.boton:hover:not(:disabled)::before {
+  animation: brilloBoton 750ms ease-out;
+}
+
+/* ==========================================================================
+   Capas de ambiente
+   ========================================================================== */
+
+/* Líneas de escaneo sutiles sobre toda la interfaz */
+.app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0 1px,
+    transparent 1px 4px
+  );
+  opacity: 0.22;
+}
+
+@keyframes auroraNeon {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 80% 45%;
+  }
+}
+
+@keyframes brilloBoton {
+  0% {
+    transform: translateX(-120%) rotate(18deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(260%) rotate(18deg);
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
