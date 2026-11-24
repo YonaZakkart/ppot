@@ -29,9 +29,9 @@ export const ATAJOS = {
 }
 
 export const SERIES = [
-  { id: 'bo3', rondas: 3, meta: 2, etiqueta: 'Al mejor de 3' },
-  { id: 'bo5', rondas: 5, meta: 3, etiqueta: 'Al mejor de 5' },
-  { id: 'bo7', rondas: 7, meta: 4, etiqueta: 'Al mejor de 7' },
+  { id: 'bo3', rondas: 3, meta: 2, etiqueta: 'Al mejor de 3', corto: 'BO3' },
+  { id: 'bo5', rondas: 5, meta: 3, etiqueta: 'Al mejor de 5', corto: 'BO5' },
+  { id: 'bo7', rondas: 7, meta: 4, etiqueta: 'Al mejor de 7', corto: 'BO7' },
 ]
 
 export function esMovimiento(valor) {
